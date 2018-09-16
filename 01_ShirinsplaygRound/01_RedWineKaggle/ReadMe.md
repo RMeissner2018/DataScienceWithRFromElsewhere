@@ -21,7 +21,7 @@ There are ways to solve this, though. The devtools package came in hand quite ni
 during the installation process to install packages from GitHub directly.
 
 # Second section
-1.Loading the data. Apparently the data set is slightly different from the example 
+1. Loading the data. Apparently the data set is slightly different from the example 
 because colnames has "." in it, instead of spaces. Might be caused because I am 
 calling read.csv() and not read_csv(). By using gsub() with "\\." as an indication of 
 the period "." and not just any character, this is resolved.
