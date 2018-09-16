@@ -29,7 +29,7 @@ the period "." and not just any character, this is resolved.
 the left side to the functions on the right. More I cannot say yet. Plotting the first 
 graphs does not work if this is not used
 
-Findings
+## Findings
 - Low quality wines have on average less alcohol, but may have morge sulfur dioxides 
 and volatile acidity
 - The average pH value of wine is below 3.5 - a potent acid.
