@@ -8,6 +8,9 @@ quality-cortez-et-al-2009".
 potentially well explained) example.
 - Use a kaggle data set to get familiar with kaggle, the way it presents data and more
 
+# Goal
+1. Can we predict the quality of a wine based on one of its properties?
+
 # More on this example
 - Has been documented here, too: https://www.kaggle.com/meepbobeep/intro-to-
 regression-and-classification-in-r
