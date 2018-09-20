@@ -81,17 +81,66 @@ p1 <- wine_data %>%
 p2 <- wine_data %>%
     gather(x, y, fixed_acidity:alcohol) %>%
     ggplot(aes(x = y, y = quality, color = quality, fill = quality)) +
-    facet_wrap( ~ x, scale = "free", ncol = 3) +
-    scale_fill_tableau() +
+        facet_wrap( ~ x, scale = "free", ncol = 3) +
     scale_color_tableau() +
+    scale_fill_tableau() + 
     geom_density_ridges(alpha = 0.8) +
     guides(fill = FALSE, color = FALSE)
+    # scale_color_tableau() +
+    # geom_density_ridges(alpha = 0.8) +
+    # guides(fill = FALSE, color = FALSE)
+        # facet_wrap( ~ x, scale = "free", ncol = 3) +
+    
+# p2 <- wine_data %>%
+#     gather(x, y, fixed_acidity:alcohol) %>%
+#         ggplot(aes(x = y, y = quality, color = quality, fill = quality)) +
+#         facet_wrap( ~ x, scale = "free", ncol = 3) +
+#         scale_fill_tableau() +
+#         scale_color_tableau() +
+#         geom_density_ridges(alpha = 0.8) #+
+        # guides(fill = FALSE, color = FALSE)
 
-# playing around here 
-p3 <- wine_data %>% 
+# playing around here
+p3 <- wine_data %>%
     ggplot(aes(x = quality, fill = quality)) + # defines the bars, apparently it assumes counting here
     geom_bar(alpha = 0.8) + # makes the geometrical bars
     scale_fill_tableau() + # and this seems to define colours
     guides(fill = FALSE) # removes the legend
 
 grid.arrange(p1, p2,p3, ncol = 3, widths = c(0.2, 0.6, 0.2))
+
+# Model #####
+
+set.seed(42)
+idx <- createDataPartition(wine_data$quality, 
+                           p = 0.8, 
+                           list = FALSE, 
+                           times = 1)
+
+wine_train <- wine_data[ idx,]
+wine_test  <- wine_data[-idx,]
+
+# fit
+# had to install e1071 and rf_model package
+
+fit_control <- trainControl(method = "repeatedcv",
+                            number = 5,   
+                            repeats = 3)
+
+# library(profvis)
+# profvis({
+set.seed(42)
+rf_model <- train(quality ~ ., 
+                  data = wine_train, 
+                  method = "rf",  # random forest model
+                  preProcess = c("scale", "center"),
+                  trControl = fit_control,
+                  verbose = FALSE)
+rf_model
+# })
+
+test_predict <- predict(rf_model, wine_test)
+
+
+confusionMatrix(test_predict, as.factor(wine_test$quality))
+# What are these measures? What does it mean?
